@@ -1,93 +1,575 @@
-# authentication-server-dotnet
+# Spec Kit Workflow - .NET Core Traditional Authentication
 
+**Complete Spec Kit workflow for .NET Core Traditional Authentication boilerplate**
 
+Use these prompts in order with Spec Kit's slash commands in your AI coding assistant.
 
-## Getting started
+---
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
-
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-* [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 1. /speckit.constitution - Project Principles
 
 ```
-cd existing_repo
-git remote add origin https://git.zallpylabs.com/engineering-hub/ai-research-and-development/authentication-server-dotnet.git
-git branch -M main
-git push -uf origin main
+/speckit.constitution
+
+Create comprehensive project principles for .NET Core Traditional Authentication boilerplate.
+
+PROJECT CONTEXT:
+- Technology: ASP.NET Core with C#
+- Authentication: Traditional (JWT-based username/password)
+- Database: PostgreSQL with Entity Framework Core
+- Purpose: Production-ready authentication microservice boilerplate
+
+Principles should cover:
+
+1. CODE QUALITY STANDARDS
+   - .NET 8.0 LTS enforcement
+   - StyleCop analyzers with zero warnings
+   - .editorconfig for consistent formatting
+   - 80%+ test coverage minimum
+   - No TODO comments without issue references
+   - Code review required for all changes
+   - Nullable reference types enabled
+   - Async/await best practices
+
+2. SECURITY REQUIREMENTS
+   - OWASP Top 10 compliance mandatory
+   - No hardcoded secrets or credentials
+   - All passwords hashed with BCrypt.Net (work factor 12+)
+   - SQL injection prevention (EF Core parameterized queries)
+   - XSS protection enabled
+   - CSRF protection for state-changing operations
+   - Rate limiting middleware
+   - JWT Bearer authentication
+   - Token expiration enforced
+   - HTTPS redirection in production
+   - Security headers middleware
+
+3. TESTING STANDARDS
+   - Minimum 80% code coverage
+   - xUnit for unit testing
+   - WebApplicationFactory for integration testing
+   - Moq for mocking
+   - Test database with Testcontainers
+   - Unit tests for all services
+   - Integration tests for all API endpoints
+   - Security test cases
+
+4. API DESIGN
+   - RESTful conventions strictly followed
+   - Consistent response format (success/error)
+   - OpenAPI 3.0 with Swashbuckle
+   - Swagger UI documentation at /api/docs
+   - API versioning strategy
+   - Proper HTTP status codes
+   - FluentValidation for request validation
+
+5. ASP.NET CORE SPECIFIC STANDARDS
+   - Minimal APIs or Controllers (Controllers recommended)
+   - Dependency injection via constructor
+   - [ApiController] attribute
+   - [Authorize] for protected endpoints
+   - Options pattern for configuration
+   - ILogger<T> for logging
+   - ProblemDetails for error responses
+
+6. DOCUMENTATION
+   - README with quick start (5-minute setup)
+   - XML documentation comments
+   - Architecture documentation
+   - API examples with curl commands
+   - appsettings.json documentation
+   - Deployment guide
+   - Docker setup documented
+   - Troubleshooting section
+
+7. PERFORMANCE
+   - API response time <200ms (p95)
+   - Database connection pooling
+   - Efficient EF Core queries with AsNoTracking
+   - Caching for roles/permissions with IMemoryCache
+   - Pagination for list endpoints
+   - No N+1 query problems
+
+8. RELIABILITY
+   - Graceful error handling with exception filters
+   - Serilog structured logging (JSON format)
+   - Health check endpoints (/health, /ready)
+   - Database migration on startup (optional)
+   - Graceful shutdown
+   - Transaction management
+
+9. DEVELOPMENT WORKFLOW
+   - Feature branches from main
+   - Pull request required before merge
+   - Automated tests must pass
+   - Commit messages follow conventional commits
+   - Environment-specific appsettings
+
+10. C# / .NET STANDARDS
+    - Nullable reference types enabled
+    - Record types for DTOs
+    - Pattern matching where appropriate
+    - LINQ for queries
+    - AutoMapper for DTO mapping
+    - Extension methods for clean code
 ```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://git.zallpylabs.com/engineering-hub/ai-research-and-development/authentication-server-dotnet/-/settings/integrations)
+## 2. /speckit.specify - Create Specification
 
-## Collaborate with your team
+```
+/speckit.specify
 
-* [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+Create detailed specification for .NET Core Traditional Authentication boilerplate.
 
-## Test and Deploy
+TECHNOLOGY STACK:
+- Framework: .NET 8.0 LTS
+- Language: C# 12
+- API: ASP.NET Core Web API
+- Authentication: JWT Bearer (Microsoft.AspNetCore.Authentication.JwtBearer)
+- Password Hashing: BCrypt.Net-Next
+- Database: PostgreSQL 15+
+- ORM: Entity Framework Core 8
+- Validation: FluentValidation.AspNetCore
+- Testing: xUnit + Moq + WebApplicationFactory
+- Logging: Serilog.AspNetCore
+- Documentation: Swashbuckle.AspNetCore (Swagger/OpenAPI)
+- Mapping: AutoMapper
 
-Use the built-in continuous integration in GitLab.
+FEATURE OVERVIEW:
+Build a production-ready ASP.NET Core authentication service that:
+- Handles user registration with email validation
+- Manages user login with credentials
+- Issues JWT access tokens (15-minute expiration)
+- Provides refresh token mechanism (7-day expiration)
+- Implements logout with token revocation
+- Supports password reset flow
+- Enforces role-based access control with [Authorize(Roles = "")]
+- Provides complete REST API with OpenAPI documentation
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+AUTHENTICATION FEATURES REQUIRED:
 
-***
+1. User Registration
+   - Email validation (valid email format)
+   - Password complexity validation with FluentValidation (8+ chars, uppercase, lowercase, number, special char)
+   - Password hashing with BCrypt.Net (work factor 12)
+   - Duplicate email prevention
+   - User activation (active by default)
+   - Registration audit logging
 
-# Editing this README
+2. User Login
+   - Credential validation (email + password)
+   - JWT access token generation (15-minute expiry)
+   - Refresh token generation (7-day expiry)
+   - Rate limiting middleware (5 failed attempts per 15 minutes)
+   - Audit logging of login attempts
+   - Return user details with tokens
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+3. Token Management
+   - POST /api/auth/refresh - Get new access token with refresh token
+   - Token validation middleware (JWT Bearer)
+   - Automatic token rotation on refresh
+   - Token expiration enforcement
+   - Expired token rejection with proper error
 
-## Suggestions for a good README
+4. User Logout
+   - Token revocation (add to blacklist or remove refresh token)
+   - Refresh token invalidation in database
+   - Session cleanup
+   - Logout audit logging
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+5. Password Reset
+   - POST /api/auth/password-reset - Request password reset
+   - Generate reset token (valid for 1 hour)
+   - Email notification with reset link
+   - POST /api/auth/password-reset/{token} - Reset password
+   - Token validation and one-time use
+   - Password change audit logging
 
-## Name
-Choose a self-explaining name for your project.
+AUTHORIZATION FEATURES REQUIRED:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+1. ASP.NET Core Authorization
+   - [Authorize] attribute for protected endpoints
+   - [Authorize(Roles = "Admin")] for admin-only endpoints
+   - Policy-based authorization
+   - Custom authorization handlers (optional)
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+2. Role-Based Access Control (RBAC)
+   - Three default roles: Admin, User, Guest
+   - Role assignment to users (many-to-many)
+   - Dynamic permission assignment to roles
+   - Custom authorization policies
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+3. User Profile Management
+   - GET /api/users/me - Get own profile
+   - PUT /api/users/me - Update own profile
+   - POST /api/users/change-password - Change password
+   - Admin endpoints:
+     * GET /api/admin/users - List all users
+     * GET /api/admin/users/{id} - Get user details
+     * POST /api/admin/users/{id}/roles - Assign role to user
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+DATA MODEL REQUIREMENTS (EF Core Entities):
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+1. User Entity
+   - Id (Guid, primary key)
+   - Email (string, unique, indexed)
+   - PasswordHash (string)
+   - FirstName (string, nullable)
+   - LastName (string, nullable)
+   - IsActive (bool, default true)
+   - IsVerified (bool, default false)
+   - LastLoginAt (DateTime?, nullable)
+   - CreatedAt (DateTime)
+   - UpdatedAt (DateTime)
+   - Roles (ICollection<UserRole> - many-to-many)
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+2. Role Entity
+   - Id (Guid)
+   - Name (string, unique)
+   - Description (string)
+   - CreatedAt (DateTime)
+   - Permissions (ICollection<RolePermission>)
+   - Users (ICollection<UserRole>)
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+3. Permission Entity
+   - Id (Guid)
+   - Name (string, unique, format: resource:action)
+   - Resource (string)
+   - Action (string)
+   - Description (string)
+   - CreatedAt (DateTime)
+   - Roles (ICollection<RolePermission>)
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+4. RefreshToken Entity
+   - Id (Guid)
+   - UserId (Guid, foreign key)
+   - Token (string, unique, indexed)
+   - ExpiresAt (DateTime)
+   - IsRevoked (bool, default false)
+   - CreatedAt (DateTime)
+   - User (User navigation property)
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+5. AuditLog Entity
+   - Id (Guid)
+   - UserId (Guid?, nullable, foreign key)
+   - Action (string: Login, Logout, PasswordChange, etc.)
+   - Resource (string, nullable)
+   - IpAddress (string)
+   - UserAgent (string)
+   - Success (bool)
+   - ErrorMessage (string, nullable)
+   - CreatedAt (DateTime)
+   - User (User navigation property)
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+API ENDPOINTS SPECIFICATION:
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Authentication:
+- POST /api/auth/register
+  * Request: { email, password, firstName?, lastName? }
+  * Response: { success, data: { user, accessToken, refreshToken }, message, timestamp }
+  
+- POST /api/auth/login
+  * Request: { email, password }
+  * Response: { success, data: { user, accessToken, refreshToken }, message, timestamp }
+  
+- POST /api/auth/logout
+  * Headers: Authorization: Bearer {token}
+  * Response: { success, message, timestamp }
+  
+- POST /api/auth/refresh
+  * Request: { refreshToken }
+  * Response: { success, data: { accessToken, refreshToken }, message, timestamp }
+  
+- POST /api/auth/verify
+  * Headers: Authorization: Bearer {token}
+  * Response: { success, data: { valid: true, user }, message, timestamp }
+  
+- POST /api/auth/password-reset
+  * Request: { email }
+  * Response: { success, message, timestamp }
 
-## License
-For open source projects, say how it is licensed.
+User Management:
+- GET /api/users/me
+- PUT /api/users/me
+- POST /api/users/change-password
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Admin/RBAC:
+- GET /api/admin/users ([Authorize(Roles = "Admin")])
+- GET /api/admin/users/{id}
+- POST /api/admin/users/{id}/roles
+- GET /api/roles
+- POST /api/roles
+- GET /api/permissions
+
+Health Checks:
+- GET /health
+- GET /ready
+
+RESPONSE FORMAT:
+Success: { success: true, data, message, timestamp }
+Error: { success: false, error: { code, message, details }, timestamp }
+```
+
+---
+
+## 3. /speckit.plan - Implementation Plan
+
+```
+/speckit.plan
+
+PROJECT STRUCTURE:
+
+dotnet-traditional-auth/
+├── .speckit/
+├── src/
+│   ├── Auth.Api/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.cs
+│   │   │   ├── UserController.cs
+│   │   │   └── AdminController.cs
+│   │   ├── Middleware/
+│   │   │   ├── ErrorHandlingMiddleware.cs
+│   │   │   └── RateLimitingMiddleware.cs
+│   │   ├── Program.cs
+│   │   └── appsettings.json
+│   ├── Auth.Application/
+│   │   ├── DTOs/
+│   │   ├── Services/
+│   │   │   ├── AuthService.cs
+│   │   │   ├── UserService.cs
+│   │   │   └── TokenService.cs
+│   │   ├── Validators/
+│   │   └── Mappings/
+│   ├── Auth.Domain/
+│   │   ├── Entities/
+│   │   │   ├── User.cs
+│   │   │   ├── Role.cs
+│   │   │   └── RefreshToken.cs
+│   │   └── Interfaces/
+│   └── Auth.Infrastructure/
+│       ├── Data/
+│       │   ├── AppDbContext.cs
+│       │   └── Migrations/
+│       ├── Repositories/
+│       └── Security/
+│           ├── PasswordHasher.cs
+│           └── JwtTokenGenerator.cs
+├── tests/
+│   ├── Auth.Api.Tests/
+│   └── Auth.Application.Tests/
+├── Dockerfile
+├── docker-compose.yml
+└── README.md
+
+
+NUGET PACKAGES:
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- Microsoft.EntityFrameworkCore
+- Npgsql.EntityFrameworkCore.PostgreSQL
+- BCrypt.Net-Next
+- FluentValidation.AspNetCore
+- Serilog.AspNetCore
+- Swashbuckle.AspNetCore
+- AutoMapper.Extensions.Microsoft.DependencyInjection
+- xUnit
+- Moq
+
+IMPLEMENTATION PHASES:
+
+PHASE 1: PROJECT SETUP (Day 1)
+- Create .NET solution with projects
+- Configure project references
+- Install NuGet packages
+- Setup appsettings.json
+- Configure Serilog
+
+PHASE 2: DATABASE (Day 2)
+- Create EF Core entities
+- Configure DbContext
+- Create migrations
+- Seed data
+
+PHASE 3: AUTHENTICATION (Days 3-4)
+- Implement password hashing
+- Implement JWT generation
+- Create AuthService
+- Configure JWT Bearer authentication
+
+PHASE 4: AUTHORIZATION (Day 5)
+- Configure authorization policies
+- Create admin endpoints
+
+PHASE 5: TESTING (Days 6-7)
+- xUnit tests
+- Integration tests with WebApplicationFactory
+
+PHASE 6: DOCUMENTATION (Day 8)
+- Swagger UI
+- README
+- Docker setup
+```
+
+---
+
+## 4. /speckit.tasks - Task Breakdown
+
+```
+/speckit.tasks
+
+PHASE 1: PROJECT SETUP
+- [ ] SETUP-001: Create .NET solution
+  * dotnet new sln
+  * Complexity: Low
+
+- [ ] SETUP-002: Create API project
+  * dotnet new webapi -n Auth.Api
+  * Complexity: Low
+
+- [ ] SETUP-003: Create class library projects
+  * Application, Domain, Infrastructure
+  * Complexity: Low
+
+- [ ] SETUP-004: Install NuGet packages
+  * JWT Bearer, EF Core, BCrypt, FluentValidation, Serilog
+  * Complexity: Low
+
+- [ ] SETUP-005: Configure appsettings.json
+  * Database, JWT, logging settings
+  * Complexity: Low
+
+PHASE 2: DATABASE
+- [ ] DB-001: Create User entity
+  * Security Checkpoint: Yes (PasswordHash)
+  
+- [ ] DB-002: Create Role entity
+- [ ] DB-003: Create Permission entity
+- [ ] DB-004: Create RefreshToken entity
+- [ ] DB-005: Create AuditLog entity
+- [ ] DB-006: Configure DbContext
+- [ ] DB-007: Create EF Core migrations
+- [ ] DB-008: Create seed data
+
+PHASE 3: AUTHENTICATION
+- [ ] AUTH-001: Create password hasher (BCrypt)
+  * Work factor 12
+  * Security Checkpoint: Yes
+
+- [ ] AUTH-002: Create JWT token generator
+  * HS256, 15min expiration
+  * Security Checkpoint: Yes
+
+- [ ] AUTH-003: Create AuthService
+  * Register, Login, Logout
+  * Complexity: High
+
+- [ ] AUTH-004: Create TokenService
+  * Generate, Refresh, Revoke
+  * Complexity: High
+
+- [ ] AUTH-005: Configure JWT Bearer authentication
+  * Program.cs configuration
+  * Security Checkpoint: Yes
+
+- [ ] AUTH-006: Create AuthController
+  * All auth endpoints
+  * Complexity: High
+
+- [ ] AUTH-007: Implement rate limiting middleware
+  * Security Checkpoint: Yes
+
+PHASE 4: AUTHORIZATION
+- [ ] AUTHZ-001: Configure authorization policies
+- [ ] AUTHZ-002: Create AdminController
+  * [Authorize(Roles = "Admin")]
+  * Security Checkpoint: Yes
+
+- [ ] AUTHZ-003: Create UserController
+
+PHASE 5: TESTING
+- [ ] TEST-001: Setup xUnit
+- [ ] TEST-002: Unit tests for AuthService
+- [ ] TEST-003: Integration tests with WebApplicationFactory
+- [ ] TEST-004: Security tests
+- [ ] TEST-005: Verify 80%+ coverage
+
+PHASE 6: DOCUMENTATION
+- [ ] DOC-001: Configure Swashbuckle
+- [ ] DOC-002: Create README
+- [ ] DOC-003: Create Dockerfile
+- [ ] DOC-004: Create docker-compose.yml
+```
+
+---
+
+## 5. /speckit.implement - Execute Implementation
+
+```
+/speckit.implement
+
+IMPLEMENTATION CHECKLIST:
+
+✅ PROJECT SETUP:
+- [ ] .NET 8.0 solution created
+- [ ] Projects: Api, Application, Domain, Infrastructure
+- [ ] NuGet packages installed
+- [ ] appsettings.json configured
+
+✅ DATABASE:
+- [ ] EF Core entities
+- [ ] DbContext configured
+- [ ] Migrations created
+- [ ] Seed data (roles)
+
+✅ AUTHENTICATION:
+- [ ] BCrypt password hasher (work factor 12)
+- [ ] JWT token generator (HS256, 15min)
+- [ ] AuthService (Register, Login)
+- [ ] TokenService (Generate, Refresh, Revoke)
+- [ ] JWT Bearer authentication configured
+- [ ] AuthController
+
+✅ AUTHORIZATION:
+- [ ] [Authorize] attributes
+- [ ] [Authorize(Roles = "Admin")]
+- [ ] Authorization policies
+
+✅ TESTING:
+- [ ] xUnit tests
+- [ ] WebApplicationFactory integration tests
+- [ ] 80%+ coverage
+
+✅ DOCUMENTATION:
+- [ ] Swagger UI at /api/docs
+- [ ] README
+- [ ] Dockerfile
+- [ ] docker-compose.yml
+
+APPSETTINGS.JSON EXAMPLE:
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Database=authdb;Username=postgres;Password=password"
+  },
+  "JwtSettings": {
+    "Secret": "your-super-secret-jwt-key-min-32-chars",
+    "Issuer": "auth-api",
+    "Audience": "auth-client",
+    "AccessTokenExpirationMinutes": 15,
+    "RefreshTokenExpirationDays": 7
+  },
+  "BcryptSettings": {
+    "WorkFactor": 12
+  }
+}
+```
+
+Begin with project setup and database layer, then implement JWT authentication.
+```
+
+---
+
+**Document Version:** 1.0  
+**Created:** February 9, 2026  
+**Stack:** .NET Core Traditional Authentication
