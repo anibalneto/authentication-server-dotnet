@@ -28,7 +28,7 @@ public class AuthService
 
     public async Task<AuthResponse?> RegisterAsync(RegisterRequest request, string? ipAddress, string? userAgent)
     {
-        if (await _userRepository.ExistsAsync(request.Email))
+        if (await _userRepository.ExistsAsync(request.Email.ToLowerInvariant()))
         {
             await LogAuditAsync(null, "Register", ipAddress, userAgent, false, "Email already registered");
             return null;
