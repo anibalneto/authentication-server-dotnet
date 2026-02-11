@@ -2,6 +2,7 @@ using Auth.Infrastructure.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Auth.Api.Tests;
@@ -30,6 +31,18 @@ public class CustomWebApplicationFactory : WebApplicationFactory<Program>
             using var scope = sp.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             db.Database.EnsureCreated();
+        });
+
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["JwtSettings:Secret"] = "this-is-a-test-secret-key-that-is-long-enough-for-hs256",
+                ["JwtSettings:Issuer"] = "auth-api",
+                ["JwtSettings:Audience"] = "auth-client",
+                ["JwtSettings:AccessTokenExpirationMinutes"] = "15",
+                ["JwtSettings:RefreshTokenExpirationDays"] = "7"
+            });
         });
 
         builder.UseEnvironment("Development");

@@ -26,7 +26,7 @@ public class TokenService
         _mapper = mapper;
     }
 
-    public async Task<AuthResponse> GenerateTokenPairAsync(User user, IEnumerable<string> roles)
+    public virtual async Task<AuthResponse> GenerateTokenPairAsync(User user, IEnumerable<string> roles)
     {
         var accessToken = _jwtTokenGenerator.GenerateAccessToken(user, roles);
         var refreshToken = await CreateRefreshTokenAsync(user.Id);
@@ -39,7 +39,7 @@ public class TokenService
         };
     }
 
-    public async Task<TokenRefreshResponse?> RefreshTokenAsync(string token)
+    public virtual async Task<TokenRefreshResponse?> RefreshTokenAsync(string token)
     {
         var existingToken = await _refreshTokenRepository.GetByTokenAsync(token);
         if (existingToken == null || existingToken.IsRevoked || existingToken.ExpiresAt <= DateTime.UtcNow)
@@ -67,7 +67,7 @@ public class TokenService
         };
     }
 
-    public async Task<TokenVerifyResponse> VerifyTokenAsync(string accessToken, Guid userId)
+    public virtual async Task<TokenVerifyResponse> VerifyTokenAsync(string accessToken, Guid userId)
     {
         var isValid = _jwtTokenGenerator.ValidateToken(accessToken);
         if (!isValid)
@@ -88,7 +88,7 @@ public class TokenService
         };
     }
 
-    public async Task RevokeAllTokensAsync(Guid userId)
+    public virtual async Task RevokeAllTokensAsync(Guid userId)
     {
         await _refreshTokenRepository.RevokeAllForUserAsync(userId);
     }
