@@ -1,0 +1,29 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.vs/
+.vscode/
+.idea/
+
+## NuGet
+*.nupkg
+**/packages/*
+
+## Build
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+bld/
+
+## Rider
+.idea/
+
+## Environment
+.env
+*.env.*
+appsettings.Local.json
